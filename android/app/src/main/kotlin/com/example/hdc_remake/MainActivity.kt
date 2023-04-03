@@ -1,0 +1,6 @@
+package com.example.hdc_remake
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
