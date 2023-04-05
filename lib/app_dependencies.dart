@@ -2,10 +2,18 @@
 // Flutter
 export 'package:flutter/material.dart';
 
-// Screens
-export 'screens/Home_Screen/home_screen.dart';
-export './screens/home_screen/structure/home_screen_dependencies.dart';
+// Application init handle
+export 'package:hdc_remake/navigation_handle.dart';
 
-// Widgets
-export './widgets/spaces.dart';
-export './widgets/dividerLine.dart';
+// Screens
+
+export 'screens/Home_Screen/home_screen.dart';
+export 'screens/home_screen/home_screen_dependencies.dart';
+
+export 'package:hdc_remake/screens/search_screen/search_screen.dart';
+export 'screens/search_screen/search_screen_dependencies.dart';
+
+export 'package:hdc_remake/screens/song_screen/song_screen.dart';
+export 'screens/song_screen/song_screen_dependencies.dart';
+
+export 'package:hdc_remake/screens/settings_screen/settings_screen.dart';

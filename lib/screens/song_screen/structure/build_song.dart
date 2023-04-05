@@ -1,0 +1,37 @@
+import 'package:hdc_remake/app_dependencies.dart';
+
+Widget buildSong(BuildContext context) {
+
+  const textValue = ""
+  "Iglesia de Cristo, reanima tu amor.\n"
+  "Y sigue la senda que Cristo trazó.\n"
+  "Anuncia constante con fe y con valor.\n"
+  "El Santo Evangelio que Cristo enseñó.\n\n"
+  "Iglesia de Cristo, sé fiel al Señor.\n"
+  '"Id por todo el mundo" es la comisión.\n'
+  "Conduce a las al buen Salvador.\n"
+  "Todo el obediente tendrá salvación.\n\n"
+  "Conserva de Cristo la antorcha de luz.\n"
+  "Y sigue alumbrando con fe y con tesón.\n"
+  "Enseña a las gentes que Cristo en la cruz.\n"
+  "Murió para darles paz, gozo y perdón.\n\n"
+  "Unidos en Cristo y en su santo amor.\n"
+  "Con fe primitiva, sencilla, y fervor.\n"
+  '"Una fe, un bautismo y un sólo Señor."\n'
+  '"Un solo rebaño y un sólo Pastor."';
+
+  return Container(
+    padding: const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
+    width: MediaQuery.of(context).size.width,
+    alignment: Alignment.center,
+    child: const Text(
+      textValue,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        height: 1.5,
+      ),
+    ),
+  );
+}
