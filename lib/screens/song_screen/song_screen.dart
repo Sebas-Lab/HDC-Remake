@@ -10,10 +10,13 @@ class SongScreen extends StatefulWidget {
 class _SongScreenState extends State<SongScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF1E2A47),
-      appBar: BuildSongScreenAppbar(),
-      body: BuildSongScreenBody(),
+    return ChangeNotifierProvider(
+      create: (_) => FontSizeProvider(),
+      child: const Scaffold(
+        backgroundColor: Color(0xFF1E2A47),
+        appBar: BuildSongScreenAppbar(),
+        body: BuildSongScreenBody(),
+      ),
     );
   }
 }

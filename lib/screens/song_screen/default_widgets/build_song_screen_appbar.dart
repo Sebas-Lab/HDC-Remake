@@ -5,17 +5,41 @@ class BuildSongScreenAppbar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context);
     return AppBar(
       backgroundColor: const Color(0xFF3DBAA6),
-      centerTitle: true,
       title: const Text(
-        'Letra del himnario',
+        'Iglesia de Cristo.',
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
           color: Color(0xFF3A3A3A),
         ),
       ),
+      actions: [
+        Container(
+          margin: const EdgeInsets.only(right: 5),
+          child: IconButton(
+            onPressed: fontSizeProvider.increaseFontSize,
+            icon: const Icon(
+              Icons.add_circle,
+              size: 35,
+              color: Color(0xFF1E2A47),
+            ),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: IconButton(
+            onPressed: fontSizeProvider.decreaseFontSize,
+            icon: const Icon(
+              Icons.remove_circle,
+              size: 35,
+              color: Color(0xFF1E2A47),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

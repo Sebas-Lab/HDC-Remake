@@ -1,8 +1,9 @@
 import 'package:hdc_remake/app_dependencies.dart';
 
-Widget buildSong(BuildContext context) {
+class BuildSong extends StatelessWidget {
+  const BuildSong({Key? key}) : super(key: key);
 
-  const textValue = ""
+  static const String textValue = ""
   "Iglesia de Cristo, reanima tu amor.\n"
   "Y sigue la senda que Cristo trazó.\n"
   "Anuncia constante con fe y con valor.\n"
@@ -20,18 +21,22 @@ Widget buildSong(BuildContext context) {
   '"Una fe, un bautismo y un sólo Señor."\n'
   '"Un solo rebaño y un sólo Pastor."';
 
-  return Container(
-    padding: const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
-    width: MediaQuery.of(context).size.width,
-    alignment: Alignment.center,
-    child: const Text(
-      textValue,
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-        height: 1.5,
+  @override
+  Widget build(BuildContext context) {
+    final fontSizeProvider = Provider.of<FontSizeProvider>(context);
+    return Container(
+      padding: const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
+      width: MediaQuery.of(context).size.width,
+      alignment: Alignment.center,
+      child: Text(
+        textValue,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: fontSizeProvider.fontSize,
+          fontWeight: FontWeight.bold,
+          height: 1.5,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

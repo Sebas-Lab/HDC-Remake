@@ -8,12 +8,23 @@ class BuildHomeScreenBody extends StatefulWidget {
 }
 
 class _BuildHomeScreenBodyState extends State<BuildHomeScreenBody> {
+  final songListKey = GlobalKey<SongListState>();
+
+  void _onSongSelected(int index) {
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchByNumber(context),
-        buildSongsList(context),
+        buildSearchByNumber(context, (int start, int end) => {
+          if(end > 368) end = 368,
+          songListKey.currentState?.applyFilter(start, end),
+        }),
+        SongList(key: songListKey, onSongSelected: _onSongSelected),
       ],
     );
   }

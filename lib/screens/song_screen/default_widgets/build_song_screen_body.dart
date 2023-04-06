@@ -12,8 +12,8 @@ class _BuildSongScreenBodyState extends State<BuildSongScreenBody> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        buildSong(context),
+      children: const [
+        BuildSong(),
       ],
     );
   }

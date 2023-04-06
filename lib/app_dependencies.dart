@@ -17,3 +17,7 @@ export 'package:hdc_remake/screens/song_screen/song_screen.dart';
 export 'screens/song_screen/song_screen_dependencies.dart';
 
 export 'package:hdc_remake/screens/settings_screen/settings_screen.dart';
+
+// Providers
+export 'package:hdc_remake/providers/font_size_provider.dart';
+export 'package:provider/provider.dart';

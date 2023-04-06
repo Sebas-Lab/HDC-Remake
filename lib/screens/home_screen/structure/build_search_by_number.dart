@@ -1,6 +1,6 @@
 import 'package:hdc_remake/app_dependencies.dart';
 
-Widget buildSearchByNumber(BuildContext context) {
+Widget buildSearchByNumber(BuildContext context, Function(int start, int end) onFilter) {
 
   final List<String> buttonNames = [
     '1 - 50',
@@ -53,7 +53,7 @@ Widget buildSearchByNumber(BuildContext context) {
                   child: SizedBox(
                     width: 120,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onFilter(index * 50 + 1, (index + 1) * 50),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0),

@@ -18,6 +18,12 @@ class NavigationHandleState extends State<NavigationHandle> {
     const SettingsScreen(),
   ];
 
+  void _onSongSelected(int index) {
+    setState(() {
+      _selectedIndex = 2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
