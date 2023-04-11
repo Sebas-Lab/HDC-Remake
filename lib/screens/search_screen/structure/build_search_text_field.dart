@@ -14,7 +14,7 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
   @override
   void initState() {
     searchLogic = SearchLogic(onFilteredHymnsChanged: _onFilteredHymnsChanged);
-    searchLogic.loadHymnsFromJson();
+    searchLogic.loadHymnsFromDatabase();
     super.initState();
   }
 
@@ -38,7 +38,7 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.only(top: 30),
+          padding: const EdgeInsets.only(top: 30, bottom: 20),
           child: Center(
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
@@ -71,21 +71,39 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
             ),
           ),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: searchLogic.filteredHymns.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(
-                searchLogic.filteredHymns[index]['title'],
-                style: const TextStyle(color: Colors.white),
-              ),
-              onTap: () {
-                print('Tecla apretada');
-              },
-            );
-          },
+        Container(
+          padding: const EdgeInsets.only(bottom: 30),
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: searchLogic.filteredHymns.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                padding: const EdgeInsets.only(left: 20, top: 7, bottom: 7, right: 20),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF1E2A47),
+                    padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+                    shadowColor: Colors.black,
+                    elevation: 8,
+                  ),
+                  onPressed: () {
+                    print('Tecla apretada');
+                  },
+                  child: Text(
+                    '${searchLogic.filteredHymns[index].id}. - ${searchLogic.filteredHymns[index].name}',
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      height: 1.5,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                )
+              );
+            },
+          ),
         ),
       ],
     );
