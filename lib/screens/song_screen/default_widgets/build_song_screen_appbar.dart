@@ -7,6 +7,7 @@ class BuildSongScreenAppbar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     final fontSizeProvider = Provider.of<FontSizeProvider>(context);
     return AppBar(
+      automaticallyImplyLeading: true,
       backgroundColor: const Color(0xFF3DBAA6),
       title: const Text(
         'Iglesia de Cristo.',

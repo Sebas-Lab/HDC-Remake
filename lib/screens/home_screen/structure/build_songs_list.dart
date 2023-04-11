@@ -23,7 +23,7 @@ class SongListState extends State<SongList> {
   }
 
   void onSongSelected(int index) {
-
+    Navigator.pushNamed(context, '/song');
   }
 
   @override

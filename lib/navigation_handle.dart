@@ -14,15 +14,8 @@ class NavigationHandleState extends State<NavigationHandle> {
   final List<Widget> _pages = [
     const HomeScreen(),
     const SearchScreen(),
-    const SongScreen(),
     const SettingsScreen(),
   ];
-
-  void _onSongSelected(int index) {
-    setState(() {
-      _selectedIndex = 2;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +31,6 @@ class NavigationHandleState extends State<NavigationHandle> {
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Buscar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.music_note),
-            label: 'Letra',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

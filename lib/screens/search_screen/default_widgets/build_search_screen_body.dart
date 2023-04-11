@@ -10,9 +10,10 @@ class BuildSearchScreenBody extends StatefulWidget {
 class _BuildSearchScreenBodyState extends State<BuildSearchScreenBody> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        buildSearchTextField(context),
+    return ListView(
+      shrinkWrap: true,
+      children: const [
+        BuildSearchTextField(),
       ],
     );
   }

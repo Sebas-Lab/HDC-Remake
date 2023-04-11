@@ -9,9 +9,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: Color(0xFF1E2A47)),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
-      home: NavigationHandle(),
+      home: const NavigationHandle(),
+      routes: {
+        '/song': (context) => const SongScreen(),
+      }
     );
   }
 }
