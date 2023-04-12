@@ -1,7 +1,19 @@
 import 'package:hdc_remake/app_dependencies.dart';
 
-class BuildSongScreenAppbar extends StatelessWidget with PreferredSizeWidget {
+class BuildSongScreenAppbar extends StatefulWidget with PreferredSizeWidget {
   const BuildSongScreenAppbar({Key? key}) : super(key: key);
+
+  @override
+  State<BuildSongScreenAppbar> createState() => _BuildSongScreenAppbarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class _BuildSongScreenAppbarState extends State<BuildSongScreenAppbar> {
+
+  final AudioService _audioService = AudioService();
+  bool _isPlaying = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +31,7 @@ class BuildSongScreenAppbar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: [
         Container(
-          margin: const EdgeInsets.only(right: 5),
+          margin: const EdgeInsets.only(right: 4),
           child: IconButton(
             onPressed: fontSizeProvider.increaseFontSize,
             icon: const Icon(
@@ -30,7 +42,7 @@ class BuildSongScreenAppbar extends StatelessWidget with PreferredSizeWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(right: 10),
+          margin: const EdgeInsets.only(right: 4),
           child: IconButton(
             onPressed: fontSizeProvider.decreaseFontSize,
             icon: const Icon(
@@ -40,11 +52,42 @@ class BuildSongScreenAppbar extends StatelessWidget with PreferredSizeWidget {
             ),
           ),
         ),
+        Container(
+          child: _isPlaying == true
+              ? Container(
+            margin: const EdgeInsets.only(right: 4),
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  _isPlaying = false;
+                });
+                _audioService.stopAudio();
+              },
+              icon: const Icon(
+                Icons.stop_circle,
+                size: 35,
+                color: Color(0xFF1E2A47),
+              ),
+            ),
+          )
+              : Container(
+            margin: const EdgeInsets.only(right: 4),
+            child: IconButton(
+              onPressed: () {
+                setState(() {
+                  _isPlaying = true;
+                });
+                _audioService.playAudio('audio/audioSample.mp3');
+              },
+              icon: const Icon(
+                Icons.play_circle,
+                size: 35,
+                color: Color(0xFF1E2A47),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-

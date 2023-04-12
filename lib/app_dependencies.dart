@@ -6,8 +6,8 @@ export 'package:flutter/material.dart';
 export 'package:hdc_remake/widgets/navigation_handle.dart';
 
 // Screens
-// export '../screens/home_screen/home_screen_dependencies.dart';
-// export '../screens/Home_Screen/home_screen.dart';
+export '../screens/home_screen/home_screen_dependencies.dart';
+export '../screens/Home_Screen/home_screen.dart';
 export 'package:hdc_remake/screens/Home_Screen/home_screen.dart';
 
 export 'package:hdc_remake/screens/search_screen/search_screen.dart';
@@ -29,3 +29,6 @@ export 'package:flutter/services.dart' show rootBundle;
 export '../models/hymn.dart';
 export 'dart:convert';
 export 'database/populate_database.dart';
+
+// Services
+export '../../../services/audio_service.dart';

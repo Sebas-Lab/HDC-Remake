@@ -88,16 +88,18 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
                     elevation: 8,
                   ),
                   onPressed: () {
-                    print('Tecla apretada');
+                    Navigator.pushNamed(context, '/song');
                   },
-                  child: Text(
-                    '${searchLogic.filteredHymns[index].id}. - ${searchLogic.filteredHymns[index].name}',
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                      height: 1.5,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${searchLogic.filteredHymns[index].id}. - ${searchLogic.filteredHymns[index].name}',
+                      style: const TextStyle(
+                        height: 2,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 )

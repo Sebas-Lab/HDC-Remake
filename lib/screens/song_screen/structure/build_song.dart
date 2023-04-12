@@ -23,20 +23,28 @@ class BuildSong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final fontSizeProvider = Provider.of<FontSizeProvider>(context);
-    return Container(
-      padding: const EdgeInsets.only(top: 50, bottom: 50, left: 30, right: 30),
-      width: MediaQuery.of(context).size.width,
-      alignment: Alignment.center,
-      child: Text(
-        textValue,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: fontSizeProvider.fontSize,
-          fontWeight: FontWeight.bold,
-          height: 1.5,
+
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          padding: const EdgeInsets.only(top: 50, bottom: 30, left: 30, right: 30),
+          child: Container(
+            width: double.infinity,
+            child: Text(
+              textValue,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: fontSizeProvider.fontSize,
+                fontWeight: FontWeight.bold,
+                height: 1.5,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
