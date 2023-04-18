@@ -17,7 +17,7 @@ class Hymn {
   // Convert a Map object into a Hymn object
   factory Hymn.fromMap(Map<String, dynamic> json) => Hymn(
     id: json["id"],
-    name: json["name"] ?? "",
+    name: json["title"] ?? "",
     lyrics: json["lyrics"] ?? "",
   );
 }

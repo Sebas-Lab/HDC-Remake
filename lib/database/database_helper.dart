@@ -7,6 +7,8 @@ import 'package:hdc_remake/models/hymn.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 
+import '../models/songbook.dart';
+
 class DatabaseHelper {
 
   final _databaseName = "HymnsDatabase.db";
@@ -122,6 +124,15 @@ class DatabaseHelper {
 
     return List.generate(maps.length, (i) {
       return Hymn.fromMap(maps[i]);
+    });
+  }
+
+  Future<List<Songbook>> getSongbooks() async {
+    Database db = await instance.database;
+    final List<Map<String, dynamic>> maps = await db.query('name');
+
+    return List.generate(maps.length, (i) {
+      return Songbook.fromJson(maps[i]);
     });
   }
 }

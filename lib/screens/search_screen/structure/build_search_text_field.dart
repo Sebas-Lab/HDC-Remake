@@ -14,7 +14,6 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
   @override
   void initState() {
     searchLogic = SearchLogic(onFilteredHymnsChanged: _onFilteredHymnsChanged);
-    searchLogic.loadHymnsFromDatabase();
     super.initState();
   }
 
@@ -102,7 +101,7 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
                       ),
                     ),
                   ),
-                )
+                ),
               );
             },
           ),

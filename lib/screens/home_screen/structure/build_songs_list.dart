@@ -4,7 +4,8 @@ typedef SongSelectedCallback = void Function(int index);
 
 class SongList extends StatefulWidget {
   final SongSelectedCallback onSongSelected;
-  const SongList({Key? key, required this.onSongSelected}) : super(key: key);
+  final List<Hymn> hymns;
+  const SongList({Key? key, required this.onSongSelected, required this.hymns}) : super(key: key);
 
   @override
   State<SongList> createState() => SongListState();
@@ -23,16 +24,17 @@ class SongListState extends State<SongList> {
   }
 
   void onSongSelected(int index) {
-    Navigator.pushNamed(context, '/song');
+    Hymn selectedHymn = widget.hymns[index - 1];
+    Navigator.pushNamed(context, '/song', arguments: selectedHymn);
   }
 
   @override
   Widget build(BuildContext context) {
-    return buildSongsList(context, start, end, onSongSelected);
+    return buildSongsList(context, start, end, widget.hymns, onSongSelected);
   }
 }
 
-Widget buildSongsList(BuildContext context, int start, int end, SongSelectedCallback onSongSelected) {
+Widget buildSongsList(BuildContext context, int start, int end, List<Hymn> hymns, SongSelectedCallback onSongSelected) {
   return Expanded(
     child: Column(
       children: [
@@ -40,26 +42,41 @@ Widget buildSongsList(BuildContext context, int start, int end, SongSelectedCall
           child: ListView.builder(
             itemCount: end - start,
             itemBuilder: (BuildContext context, int index) {
+              if (hymns.length <= index + start) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: const Center(
+                    child: Text('Error al cargar los himnarios.'),
+                  ),
+                );
+              }
+
+              Hymn hymn = hymns[index + start];
+
               return Container(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 5, bottom: 5),
-                margin: const EdgeInsets.only(top: 5, bottom: 20),
+                padding: const EdgeInsets.only(left: 20, top: 7, bottom: 7, right: 20),
+                margin: const EdgeInsets.only(bottom: 15),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: const Color(0xFF1E2A47),
-                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
                     shadowColor: Colors.black,
                     elevation: 8,
                   ),
                   onPressed: () {
                     onSongSelected(index + start + 1);
                   },
-                  child: Text(
-                    '${index + start + 1}. - Nombre del himno.',
-                    style: const TextStyle(
-                      height: 2,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '${index + start + 1} - ${hymn.name}',
+                      style: const TextStyle(
+                        height: 2,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),

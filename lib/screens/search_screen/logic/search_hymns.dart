@@ -8,7 +8,6 @@ Future<List<dynamic>> loadHymnsFromJson() async {
 
 class SearchLogic {
   final TextEditingController searchController = TextEditingController();
-  final dbHelper = DatabaseHelper.instance;
   List<dynamic> filteredHymns = [];
   final VoidCallback? onFilteredHymnsChanged;
 
@@ -16,16 +15,13 @@ class SearchLogic {
     searchController.addListener(_filterHymns);
   }
 
-  void _filterHymns() async {
-
+  void _filterHymns() {
     String searchText = searchController.text.toLowerCase();
-    final dbHelper = DatabaseHelper.instance;
-    List<Hymn> hymns = await dbHelper.getAllHymns();
+    List<Hymn> hymns = hymnsNotifier.value;
     List<dynamic> filteredHymnsResult = [];
 
     if (searchText.isNotEmpty) {
       for (var hymn in hymns) {
-
         if (hymn.name.toLowerCase().contains(searchText)) {
           filteredHymnsResult.add(hymn);
         }
@@ -38,9 +34,5 @@ class SearchLogic {
 
     filteredHymns = filteredHymnsResult;
     onFilteredHymnsChanged?.call();
-  }
-
-  Future<List<Hymn>> loadHymnsFromDatabase() async {
-    return dbHelper.getAllHymns();
   }
 }

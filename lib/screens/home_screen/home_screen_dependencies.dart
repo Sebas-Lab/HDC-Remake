@@ -13,3 +13,4 @@ export 'structure/build_songs_list.dart';
 // Dependencies
 export 'package:hdc_remake/app_dependencies.dart';
 export 'package:hdc_remake/screens/home_screen/home_screen_dependencies.dart';
+export '../../models/songbook.dart';
