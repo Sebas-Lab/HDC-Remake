@@ -1,4 +1,4 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildSearchTextField extends StatefulWidget {
   const BuildSearchTextField({Key? key}) : super(key: key);
@@ -87,7 +87,7 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
                     elevation: 8,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/song');
+                    Navigator.pushNamed(context, '/song', arguments: searchLogic.filteredHymns[index]);
                   },
                   child: Align(
                     alignment: Alignment.centerLeft,

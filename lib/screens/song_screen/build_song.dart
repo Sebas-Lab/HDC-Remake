@@ -1,15 +1,14 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildSong extends StatefulWidget {
   final Hymn hymn;
-
   const BuildSong({Key? key, required this.hymn}) : super(key: key);
 
   @override
-  _BuildSongState createState() => _BuildSongState();
+  BuildSongState createState() => BuildSongState();
 }
 
-class _BuildSongState extends State<BuildSong> {
+class BuildSongState extends State<BuildSong> {
 
   final AudioService audioService = AudioService();
   bool isPlaying = false;
@@ -23,9 +22,9 @@ class _BuildSongState extends State<BuildSong> {
         automaticallyImplyLeading: true,
         backgroundColor: const Color(0xFF3DBAA6),
         title: Text(
-          widget.hymn.name,
+          'Número: ${widget.hymn.id}',
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Color(0xFF3A3A3A),
           ),
@@ -92,19 +91,52 @@ class _BuildSongState extends State<BuildSong> {
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.only(top: 50, bottom: 30, left: 30, right: 30),
-            child: SizedBox(
-              width: double.infinity,
-              child: Text(
-                widget.hymn.lyrics,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: fontSizeProvider.fontSize,
-                  fontWeight: FontWeight.bold,
-                  height: 1.5,
-                ),
+          Container(
+            alignment: Alignment.topCenter,
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: Text(
+                      widget.hymn.name,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        height: 1.4,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 0),
+                    child: const Divider(
+                      color: Color(0xFF3DBAA6),
+                      thickness: 2.0,
+                      indent: 20.0,
+                      endIndent: 20.0,
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 25, bottom: 25),
+                    width: double.infinity,
+                    child: Text(
+                      widget.hymn.lyrics,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: fontSizeProvider.fontSize,
+                        fontWeight: FontWeight.bold,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

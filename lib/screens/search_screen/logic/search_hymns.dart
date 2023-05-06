@@ -1,4 +1,4 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 Future<List<dynamic>> loadHymnsFromJson() async {
   final jsonString = await rootBundle.loadString('assets/sample_hymns.json');
@@ -22,11 +22,16 @@ class SearchLogic {
 
     if (searchText.isNotEmpty) {
       for (var hymn in hymns) {
+
         if (hymn.name.toLowerCase().contains(searchText)) {
           filteredHymnsResult.add(hymn);
         }
 
         if (hymn.id.toString().toLowerCase().contains(searchText)) {
+          filteredHymnsResult.add(hymn);
+        }
+
+        if (hymn.lyrics.toLowerCase().contains(searchText)) {
           filteredHymnsResult.add(hymn);
         }
       }

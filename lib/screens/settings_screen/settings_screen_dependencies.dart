@@ -6,9 +6,8 @@ export 'package:flutter/material.dart';
 export 'default_widgets/build_settings_screen_appbar.dart';
 export 'default_widgets/build_settings_screen_body.dart';
 
-// Structure
-export 'package:hdc_remake/screens/settings_screen/structure/build_change_version_button.dart';
-export 'package:hdc_remake/screens/settings_screen/structure/build_quick_info.dart';
+// Custom widgets
+export 'package:hdc_remake/screens/settings_screen/custom_widgets/option_bubble.dart';
 
 // Dependencies
-export 'package:hdc_remake/app_dependencies.dart';
+export 'package:hdc_remake/application_dependencies/app_dependencies.dart';

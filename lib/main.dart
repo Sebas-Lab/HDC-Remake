@@ -1,8 +1,7 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  populateDatabase();
   runApp(
     ChangeNotifierProvider(
       create: (context) => HymnsModel(),
@@ -36,6 +35,9 @@ class MyApp extends StatelessWidget {
               final Hymn hymn = ModalRoute.of(context)!.settings.arguments as Hymn;
               return BuildSong(hymn: hymn);
             },
+            '/home': (context) => const NavigationHandle(),
+            '/information': (context) => const InformationScreen(),
+            '/change_songbook': (context) => const ChangeSongBookScreen(),
           }
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildSettingsAppbar extends StatelessWidget with PreferredSizeWidget {
   const BuildSettingsAppbar({Key? key}) : super(key: key);

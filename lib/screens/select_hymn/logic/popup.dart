@@ -1,4 +1,4 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class PopupLogic {
 
@@ -51,16 +51,16 @@ class PopupLogic {
       },
     );
 
-    timer = Timer(const Duration(seconds: 4), () {
-      Navigator.of(context).pop();
-      if (showButton) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (BuildContext context) => const NavigationHandle(),
-          ),
-              (Route<dynamic> route) => false,
-        );
-      }
-    });
+    // timer = Timer(const Duration(seconds: 4), () {
+    //   Navigator.of(context).pop();
+    //   if (showButton) {
+    //     Navigator.of(context).pushAndRemoveUntil(
+    //       MaterialPageRoute(
+    //         builder: (BuildContext context) => const NavigationHandle(),
+    //       ),
+    //           (Route<dynamic> route) => false,
+    //     );
+    //   }
+    // });
   }
 }

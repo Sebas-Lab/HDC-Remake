@@ -2,22 +2,30 @@ class Hymn {
   int id;
   String name;
   String lyrics;
+  int songbookId;
 
-  Hymn({required this.id, required this.name, required this.lyrics});
+  Hymn({
+    required this.id,
+    required this.name,
+    required this.lyrics,
+    required this.songbookId,
+  });
 
-  // Convert a Hymn object into a Map object
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
       'lyrics': lyrics,
+      'songbookId': songbookId,
     };
   }
 
-  // Convert a Map object into a Hymn object
-  factory Hymn.fromMap(Map<String, dynamic> json) => Hymn(
-    id: json["id"],
-    name: json["title"] ?? "",
-    lyrics: json["lyrics"] ?? "",
-  );
+  factory Hymn.fromMap(Map<String, dynamic> map) {
+    return Hymn(
+      id: map['id'] ?? 0,
+      name: map['name'] ?? map['title'] ?? '',
+      lyrics: map['lyrics'] ?? '',
+      songbookId: map['songbookId'] ?? 0,
+    );
+  }
 }

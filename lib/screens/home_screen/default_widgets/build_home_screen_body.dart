@@ -1,3 +1,4 @@
+import '../../../global_data/total_hymns.dart';
 import '../home_screen_dependencies.dart';
 
 class BuildHomeScreenBody extends StatefulWidget {
@@ -16,19 +17,29 @@ class _BuildHomeScreenBodyState extends State<BuildHomeScreenBody> {
 
   @override
   Widget build(BuildContext context) {
+    print('Build called, hymnsNotifier value count: ${hymnsNotifier.value.length}');
     return ValueListenableBuilder<List<Hymn>>(
       valueListenable: hymnsNotifier,
       builder: (context, hymns, child) {
-        return Column(
-          children: [
-            buildSearchByNumber(context, (int start, int end) => {
-              if(end > 368) end = 368,
-              // Asegúrate de que el filtro se aplique correctamente.
-              songListKey.currentState?.applyFilter(start, end),
-            }),
-            SongList(key: songListKey, onSongSelected: _onSongSelected, hymns: hymns),
-          ],
-        );
+        if (hymns.isNotEmpty) {
+          print('hymns is not empty, count: ${hymns.length}');
+          return Column(
+            children: [
+              BuildSearchByNumber(
+                onFilter: (int start, int end) {
+                  if (end > hymns.length) {
+                    end = hymns.length;
+                  }
+                  songListKey.currentState?.applyFilter(start, end);
+                },
+                totalHymns: totalHymns,
+              ),
+              SongList(key: songListKey, onSongSelected: _onSongSelected, hymns: hymns),
+            ],
+          );
+        } else {
+          return const Center(child: Text('No se cargaron los himnos', style: TextStyle(color: Colors.white)));
+        }
       },
     );
   }

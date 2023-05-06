@@ -1,17 +1,16 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
-class BuildSearchScreenAppbar extends StatelessWidget with PreferredSizeWidget {
-  const BuildSearchScreenAppbar({Key? key}) : super(key: key);
+class BuildInformationScreenAppbar extends StatelessWidget with PreferredSizeWidget {
+  const BuildInformationScreenAppbar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xFF3DBAA6),
-      centerTitle: true,
       title: const Text(
-        'Búsqueda',
+        'Información',
         style: TextStyle(
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
           color: Color(0xFF3A3A3A),
         ),
@@ -22,4 +21,3 @@ class BuildSearchScreenAppbar extends StatelessWidget with PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
-

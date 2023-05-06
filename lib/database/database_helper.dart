@@ -4,10 +4,9 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:hdc_remake/models/hymn.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
 
-import '../models/songbook.dart';
+import '../api/songbook_api.dart';
+import '../models/songbooks.dart';
 
 class DatabaseHelper {
 
@@ -19,6 +18,7 @@ class DatabaseHelper {
   final columnId = 'id';
   final columnName = 'name';
   final columnLyrics = 'lyrics';
+  final columnSongbookId = 'songbookId';
 
   // Singleton constructor
   DatabaseHelper._privateConstructor();
@@ -41,14 +41,16 @@ class DatabaseHelper {
     );
   }
 
-  Future _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-    CREATE TABLE $table (
-      $columnId INTEGER PRIMARY KEY,
-      $columnName TEXT NOT NULL,
-      $columnLyrics TEXT NOT NULL
-    )
-    ''');
+      CREATE TABLE $table (
+        $columnId INTEGER NOT NULL,
+        $columnName TEXT NOT NULL,
+        $columnLyrics TEXT NOT NULL,
+        $columnSongbookId INTEGER NOT NULL,
+        PRIMARY KEY ($columnId, $columnSongbookId)
+      )
+      ''');
   }
 
   Future<int> insert(Hymn hymn) async {
@@ -99,21 +101,6 @@ class DatabaseHelper {
     });
   }
 
-  Future<List<Hymn>> _loadHymnsFromJson() async {
-    final jsonString = await rootBundle.loadString('assets/sample_hymns.json');
-    final List<dynamic> hymnsJson = jsonDecode(jsonString);
-    return hymnsJson.map((hymn) => Hymn.fromMap(hymn)).toList();
-  }
-
-  Future<void> populateDatabase() async {
-    List<Hymn> hymns = await _loadHymnsFromJson();
-    final DatabaseHelper dbHelper = DatabaseHelper.instance;
-
-    for (Hymn hymn in hymns) {
-      await dbHelper.insert(hymn);
-    }
-  }
-
   Future<List<Hymn>> searchHymnsByName(String query) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(
@@ -127,12 +114,49 @@ class DatabaseHelper {
     });
   }
 
-  Future<List<Songbook>> getSongbooks() async {
+  Future<List<Hymn>> getHymnsBySongbookId(int songbookId) async {
     Database db = await instance.database;
-    final List<Map<String, dynamic>> maps = await db.query('name');
+    List<Map<String, dynamic>> result = await db.query(table, where: '$columnSongbookId = ?', whereArgs: [songbookId]);
+    return result.map((hymnMap) => Hymn.fromMap(hymnMap)).toList();
+  }
+
+  Future<int> deleteAllHymns() async {
+    Database db = await instance.database;
+    return await db.delete(table);
+  }
+
+  // En DatabaseHelper.dart
+  Future<int> deleteHymnsBySongbookId(int songbookId) async {
+    Database db = await instance.database;
+    return await db.delete(
+      table,
+      where: 'songbookId = ?',
+      whereArgs: [songbookId],
+    );
+  }
+
+  Future<List<Hymn>> loadLocalHymns(int songbookId) async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> result = await db.query(table, where: 'songbookId = ?', whereArgs: [songbookId]);
+    return result.map((map) => Hymn.fromMap(map)).toList();
+  }
+
+  Future<int> getHymnCountBySongbookId(int songbookId) async {
+    final db = await database;
+    var result = await db.rawQuery('SELECT COUNT(*) FROM hymns WHERE songbookId = ?', [songbookId]);
+    return Sqflite.firstIntValue(result) ?? 0;
+  }
+
+  Future<List<Hymn>> loadHymns(int songbookId) async {
+    final db = await instance.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      table,
+      where: "$columnSongbookId = ?",
+      whereArgs: [songbookId],
+    );
 
     return List.generate(maps.length, (i) {
-      return Songbook.fromJson(maps[i]);
+      return Hymn.fromMap(maps[i]);
     });
   }
 }

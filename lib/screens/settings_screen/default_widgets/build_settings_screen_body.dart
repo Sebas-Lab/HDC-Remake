@@ -13,7 +13,8 @@ class _BuildSettingsBodyState extends State<BuildSettingsBody> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        buildChangeVersionButton(context),
+        buildOptionBubble(context, MediaQuery.of(context).size.height * 0.07, 'Cambiar himnario', Icons.library_books, routeName: '/change_songbook'),
+        buildOptionBubble(context, 30, 'Información', Icons.email, routeName: '/information'),
       ],
     );
   }

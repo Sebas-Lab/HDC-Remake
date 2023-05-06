@@ -1,4 +1,4 @@
-import 'package:hdc_remake/app_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class NavigationHandle extends StatefulWidget {
   const NavigationHandle({Key? key}) : super(key: key);

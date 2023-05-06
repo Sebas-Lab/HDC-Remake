@@ -1,5 +1,4 @@
-import 'package:hdc_remake/app_dependencies.dart';
-import 'package:hdc_remake/screens/select_hymn/logic/popup.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildSelectHymnBody extends StatefulWidget {
   const BuildSelectHymnBody({Key? key}) : super(key: key);
@@ -14,6 +13,7 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Songbook>>(
+
       future: fetchSongs(),
       builder: (BuildContext context, AsyncSnapshot<List<Songbook>> snapshot) {
 
@@ -32,7 +32,7 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
                 Container(
                   padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
                   child: const Text(
-                    'Selecciona un himnario.',
+                    'Selecciona un himnario',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24.0,
@@ -41,7 +41,7 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: const EdgeInsets.only(top: 20.0, bottom: 50),
                   child: const Divider(
                     color: Colors.white,
                     thickness: 1.0,
@@ -56,25 +56,28 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
                       return Center(
                         child: SizedBox(
                           width: double.infinity,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: const Color(0xFF3DBAA6),
-                                  padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 30.0, left: 30.0),
+                            margin: const EdgeInsets.only(bottom: 20.0),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: const Color(0xFF3DBAA6),
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                onPressed: () {
-                                  downloadSongbook(songbooks[index], popupLogic, context);
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
+                              ),
+                              onPressed: () {
+                                SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager();
+                                sharedPreferencesManager.saveSelectedHymnbookId(songbooks[index].id);
+                                downloadHymns(songbooks[index].id, scaffoldKey, songbooks);
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
                                       songbooks[index].name,
                                       style: const TextStyle(
                                         color: Color(0xFF3A3A3A),
@@ -82,12 +85,12 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(width: 15.0),
-                                    const Icon(Icons.download, color: Color(0xFF3A3A3A)),
-                                  ],
-                                ),
+                                  ),
+                                  const SizedBox(width: 15.0),
+                                  const Icon(Icons.download, color: Color(0xFF3A3A3A)),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       );
@@ -102,4 +105,3 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
     );
   }
 }
-
