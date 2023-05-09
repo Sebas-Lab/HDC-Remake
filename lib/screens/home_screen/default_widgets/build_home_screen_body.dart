@@ -9,15 +9,29 @@ class BuildHomeScreenBody extends StatefulWidget {
 }
 
 class _BuildHomeScreenBodyState extends State<BuildHomeScreenBody> {
-  final songListKey = GlobalKey<SongListState>();
+  final GlobalKey<SongListState> songListKey = GlobalKey();
+  final ValueNotifier<RangeValues> hymnRange = ValueNotifier(RangeValues(1, 50)); // Agrega esta línea
 
   void _onSongSelected(int index) {
     setState(() {});
   }
 
   @override
+  void initState() {
+    super.initState();
+    loadFiltersRange();
+  }
+
+  void loadFiltersRange() async{
+    SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager();
+    int? loadedTotalHymns = await sharedPreferencesManager.loadTotalHymns();
+    if (loadedTotalHymns != null) {
+      totalHymns.value = loadedTotalHymns;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print('Build called, hymnsNotifier value count: ${hymnsNotifier.value.length}');
     return ValueListenableBuilder<List<Hymn>>(
       valueListenable: hymnsNotifier,
       builder: (context, hymns, child) {
@@ -34,7 +48,12 @@ class _BuildHomeScreenBodyState extends State<BuildHomeScreenBody> {
                 },
                 totalHymns: totalHymns,
               ),
-              SongList(key: songListKey, onSongSelected: _onSongSelected, hymns: hymns),
+              SongList(
+                key: songListKey,
+                onSongSelected: _onSongSelected,
+                hymns: hymns,
+                hymnRange: hymnRange, // Añade esta línea
+              ),
             ],
           );
         } else {

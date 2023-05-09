@@ -37,38 +37,67 @@ class _SelectHymnScreenState extends State<SelectHymnScreen> {
         DatabaseHelper dbHelper = DatabaseHelper.instance;
         List<Hymn> hymns = await dbHelper.getHymnsBySongbookId(selectedHymnbookId);
 
-        // Usa la versión temporal del himnario
-        String localVersion = hymnbookVersions[selectedHymnbookId]!;
-
         // Compara la versión temporal con la versión del himnario en línea
         Songbook selectedHymnbook = songbooks.firstWhere((songbook) => songbook.id == selectedHymnbookId);
-        if (localVersion != selectedHymnbook.version) {
+
+        // Usa la versión temporal del himnario
+        String? localVersion = await sharedPreferencesManager.getHymnbookVersion(selectedHymnbookId, songbooks);
+
+        if (localVersion == null || localVersion != selectedHymnbook.version) {
           // Si las versiones son diferentes, muestra un diálogo al usuario e inicia la actualización
           showDialog(
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: const Text("Actualización disponible"),
-                content: const Text("Hay una nueva versión del himnario. ¿Desea actualizar?"),
+                backgroundColor: const Color(0xFF1E2A47),
+                title: const Text(
+                  "Actualización disponible",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: const Text(
+                  "Hay una nueva versión del himnario. ¿Desea actualizar?",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 actions: [
                   TextButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-                      // Iniciar la actualización del himnario aquí
-                      Completer<void> completer = Completer();
-                      await downloadHymns(selectedHymnbook.id, scaffoldKey, songbooks);
-                      await completer.future;
-                      if (mounted) {
-                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                      }
                     },
-                    child: const Text("Actualizar"),
+                    child: const Text(
+                      "Cancelar",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Cancelar"),
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: TextButton(
+                      onPressed: () async {
+                        // Iniciar la actualización del himnario aquí
+                        Completer<void> completer = Completer();
+                        await downloadHymns(selectedHymnbook.id, scaffoldKey, songbooks);
+                        await completer.future;
+                        if (mounted) {
+                          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                        }
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text(
+                        "Actualizar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               );

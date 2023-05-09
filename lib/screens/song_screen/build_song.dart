@@ -52,6 +52,7 @@ class BuildSongState extends State<BuildSong> {
               ),
             ),
           ),
+          if (widget.hymn.audioURL != null && widget.hymn.audioURL!.isNotEmpty)
           Container(
             child: isPlaying == true
                 ? Container(
@@ -59,9 +60,9 @@ class BuildSongState extends State<BuildSong> {
               child: IconButton(
                 onPressed: () {
                   setState(() {
-                    isPlaying = false;
+                    // isPlaying = false;
                   });
-                  audioService.stopAudio();
+                  // audioService.stopAudio();
                 },
                 icon: const Icon(
                   Icons.stop_circle,
@@ -75,9 +76,61 @@ class BuildSongState extends State<BuildSong> {
               child: IconButton(
                 onPressed: () {
                   setState(() {
-                    isPlaying = true;
+                    // isPlaying = true;
                   });
-                  audioService.playAudio('audio/audioSample.mp3');
+                  // audioService.playAudio('audio/audioSample.mp3');
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: const Color(0xFF1E2A47),
+                        title: const Text(
+                          'Audio',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        content: const Text(
+                          '¿Quieres descargar el audio de este himno?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Cerrar',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            child: TextButton(
+                              onPressed: () {
+                                downloadAudio(widget.hymn.id, widget.hymn.audioURL!);
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Descargar',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  );
                 },
                 icon: const Icon(
                   Icons.play_circle,
@@ -86,6 +139,14 @@ class BuildSongState extends State<BuildSong> {
                 ),
               ),
             ),
+          ),
+          WillPopScope(
+            child: Container(),
+            onWillPop: () {
+              Navigator.pop(context);
+              audioService.stopAudio();
+              return Future.value(false);
+            }
           ),
         ],
       ),
@@ -106,7 +167,6 @@ class BuildSongState extends State<BuildSong> {
                       widget.hymn.name,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        height: 1.4,
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

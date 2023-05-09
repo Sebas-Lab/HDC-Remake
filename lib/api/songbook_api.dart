@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 import 'package:hdc_remake/models/songbooks.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import '../global_data/total_hymns.dart';
 
@@ -55,53 +58,60 @@ Future<List<Hymn>> fetchSongbookData(int songbookId) async {
 }
 
 Future<void> downloadHymns(int songbookId, GlobalKey<ScaffoldState> scaffoldKey, List<Songbook> songbooks) async {
+
   Songbook selectedSongbook = songbooks.firstWhere((songbook) => songbook.id == songbookId);
+
   showDialog(
     context: scaffoldKey.currentContext!,
-    barrierDismissible: false,
+    barrierDismissible: true,
     builder: (BuildContext context) {
       return AlertDialog(
+        backgroundColor: const Color(0xFF1E2A47),
         title: Container(
           margin: const EdgeInsets.only(bottom: 16),
-          child: Center(
-            child: Text('Descargando himnario', textAlign: TextAlign.center),
+          child: const Center(
+            child: Text(
+              'Descargando himnario',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              )
+            ),
           ),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              margin: const EdgeInsets.only(bottom: 25),
-              child: Row(
+              margin: const EdgeInsets.only(bottom: 15),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  CircularProgressIndicator(),
-                  Text('Descargando...'),
+                children: [
+                  const CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 40),
+                    child: Text(
+                      selectedSongbook.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            // if (showButton)
-            //   ElevatedButton(
-            //     onPressed: () {
-            //       timer?.cancel();
-            //       Navigator.of(context).pop();
-            //     },
-            //     style: TextButton.styleFrom(
-            //       backgroundColor: Colors.red,
-            //       textStyle: const TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 16,
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //     child: const Text('Cancelar'),
-            //   ),
           ],
         ),
       );
     },
   );
-  // popupLogic?.showDownloadingDialog(context, "Descargando ${selectedSongbook.name}", true);
+
   List<Hymn> fetchedHymns = await fetchSongbookData(selectedSongbook.id);
   await DatabaseHelper.instance.deleteHymnsBySongbookId(songbookId);
   hymnsNotifier.value = List<Hymn>.from(fetchedHymns);
@@ -115,6 +125,7 @@ Future<void> downloadHymns(int songbookId, GlobalKey<ScaffoldState> scaffoldKey,
       name: hymn.name,
       lyrics: hymn.lyrics,
       songbookId: selectedSongbook.id,
+      audioURL: hymn.audioURL,
     ));
   });
 
@@ -123,4 +134,26 @@ Future<void> downloadHymns(int songbookId, GlobalKey<ScaffoldState> scaffoldKey,
   Navigator.pushNamedAndRemoveUntil(scaffoldKey.currentContext!, '/home', (route) => false);
   totalHymns.value = fetchedHymns.length;
   await sharedPreferencesManager.saveDownloadedSongbook(selectedSongbook.id);
+  await sharedPreferencesManager.saveTotalHymns(totalHymns.value);
+}
+
+Future<void> downloadAudio(int hymnId, String audioURL) async {
+  // Construye la URL completa
+  final completeURL = 'https://himnariodev.bibliayopinion.com/uploads/audios/$hymnId/$audioURL';
+
+  // Obtiene el directorio de documentos de la aplicación
+  final directory = await getApplicationDocumentsDirectory();
+
+  // Crea un archivo con la ruta donde se guardará el audio descargado
+  final filePath = File('${directory.path}/$audioURL');
+
+  // Realiza una solicitud HTTP GET al enlace del audio
+  final response = await http.get(Uri.parse(completeURL));
+
+  // Si la solicitud tiene éxito, guarda el contenido en el archivo
+  if (response.statusCode == 200) {
+    await filePath.writeAsBytes(response.bodyBytes);
+  } else {
+    throw Exception('Error al descargar el archivo');
+  }
 }

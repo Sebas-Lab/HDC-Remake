@@ -1,13 +1,15 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
+typedef FilterAppliedCallback = void Function(int start, int end);
+
 class BuildSearchByNumber extends StatefulWidget {
+  final FilterAppliedCallback onFilter;
   final ValueNotifier<int> totalHymns;
-  final Function(int start, int end) onFilter;
 
   const BuildSearchByNumber({
     Key? key,
-    required this.totalHymns,
     required this.onFilter,
+    required this.totalHymns,
   }) : super(key: key);
 
   @override

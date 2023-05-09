@@ -19,6 +19,7 @@ class DatabaseHelper {
   final columnName = 'name';
   final columnLyrics = 'lyrics';
   final columnSongbookId = 'songbookId';
+  final columnAudioURL = 'audioURL';
 
   // Singleton constructor
   DatabaseHelper._privateConstructor();
@@ -43,14 +44,15 @@ class DatabaseHelper {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $table (
-        $columnId INTEGER NOT NULL,
-        $columnName TEXT NOT NULL,
-        $columnLyrics TEXT NOT NULL,
-        $columnSongbookId INTEGER NOT NULL,
-        PRIMARY KEY ($columnId, $columnSongbookId)
-      )
-      ''');
+    CREATE TABLE $table (
+      $columnId INTEGER NOT NULL,
+      $columnName TEXT NOT NULL,
+      $columnLyrics TEXT NOT NULL,
+      $columnSongbookId INTEGER NOT NULL,
+      $columnAudioURL TEXT NULL,
+      PRIMARY KEY ($columnId, $columnSongbookId)
+    )
+    ''');
   }
 
   Future<int> insert(Hymn hymn) async {
@@ -158,5 +160,16 @@ class DatabaseHelper {
     return List.generate(maps.length, (i) {
       return Hymn.fromMap(maps[i]);
     });
+  }
+
+  Future<String?> getHymnbookVersion(int songbookId) async {
+    Database db = await instance.database;
+    String tableName = 'book';
+    var result = await db.query(tableName, columns: ['version'], where: 'id = ?', whereArgs: [songbookId]);
+    if (result.isNotEmpty) {
+      return result.first['version'] as String?;
+    } else {
+      return null;
+    }
   }
 }

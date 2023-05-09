@@ -1,3 +1,5 @@
+import 'hymn.dart';
+
 class Songbook {
   final int id;
   final String name;
@@ -5,7 +7,13 @@ class Songbook {
   final String img;
   final String version;
 
-  Songbook({required this.id, required this.name, required this.songAmount, required this.img, required this.version});
+  Songbook({
+    required this.id,
+    required this.name,
+    required this.songAmount,
+    required this.img,
+    required this.version,
+  });
 
   factory Songbook.fromJson(Map<String, dynamic> json) {
     return Songbook(

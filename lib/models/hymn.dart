@@ -3,12 +3,14 @@ class Hymn {
   String name;
   String lyrics;
   int songbookId;
+  String? audioURL;
 
   Hymn({
     required this.id,
     required this.name,
     required this.lyrics,
     required this.songbookId,
+    this.audioURL,
   });
 
   Map<String, dynamic> toMap() {
@@ -17,6 +19,7 @@ class Hymn {
       'name': name,
       'lyrics': lyrics,
       'songbookId': songbookId,
+      'audioURL': audioURL,
     };
   }
 
@@ -26,6 +29,7 @@ class Hymn {
       name: map['name'] ?? map['title'] ?? '',
       lyrics: map['lyrics'] ?? '',
       songbookId: map['songbookId'] ?? 0,
+      audioURL: map['audioURL'],
     );
   }
 }

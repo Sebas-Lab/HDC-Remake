@@ -5,6 +5,8 @@ class SharedPreferencesManager {
   final String _selectedHymnbookIdKey = "selectedHymnbookIndex";
   static const String _downloadedSongbooksKey = "downloadedSongbooks";
   final ValueNotifier<int?> selectedHymnbookIdNotifier = ValueNotifier(null);
+  static const String filterKey = 'selected_filter_range';
+  static const String _totalHymnsKey = 'totalHymns';
 
   Future<void> saveSelectedHymnbookId(int id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -66,5 +68,25 @@ class SharedPreferencesManager {
     DatabaseHelper dbHelper = DatabaseHelper.instance;
     List<Hymn> hymns = await dbHelper.loadHymns(songbookId);
     return hymns;
+  }
+
+  Future<void> saveSelectedFilterIndex(int index) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(filterKey, index);
+  }
+
+  Future<int?> getSelectedFilterIndex() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(filterKey);
+  }
+
+  Future<void> saveTotalHymns(int totalHymns) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(_totalHymnsKey, totalHymns);
+  }
+
+  Future<int?> loadTotalHymns() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_totalHymnsKey);
   }
 }

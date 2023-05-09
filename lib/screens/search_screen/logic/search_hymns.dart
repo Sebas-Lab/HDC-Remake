@@ -1,11 +1,5 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
-Future<List<dynamic>> loadHymnsFromJson() async {
-  final jsonString = await rootBundle.loadString('assets/sample_hymns.json');
-  final List<dynamic> hymns = jsonDecode(jsonString);
-  return hymns;
-}
-
 class SearchLogic {
   final TextEditingController searchController = TextEditingController();
   List<dynamic> filteredHymns = [];
@@ -18,26 +12,19 @@ class SearchLogic {
   void _filterHymns() {
     String searchText = searchController.text.toLowerCase();
     List<Hymn> hymns = hymnsNotifier.value;
-    List<dynamic> filteredHymnsResult = [];
+    Set<Hymn> resultSet = {};
 
     if (searchText.isNotEmpty) {
       for (var hymn in hymns) {
-
-        if (hymn.name.toLowerCase().contains(searchText)) {
-          filteredHymnsResult.add(hymn);
-        }
-
-        if (hymn.id.toString().toLowerCase().contains(searchText)) {
-          filteredHymnsResult.add(hymn);
-        }
-
-        if (hymn.lyrics.toLowerCase().contains(searchText)) {
-          filteredHymnsResult.add(hymn);
+        if (hymn.name.toLowerCase().contains(searchText) ||
+            hymn.lyrics.toLowerCase().contains(searchText) ||
+            hymn.id.toString().toLowerCase().contains(searchText)) {
+          resultSet.add(hymn);
         }
       }
     }
 
-    filteredHymns = filteredHymnsResult;
+    filteredHymns = resultSet.toList();
     onFilteredHymnsChanged?.call();
   }
 }
