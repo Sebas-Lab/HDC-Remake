@@ -5,6 +5,7 @@ import 'package:hdc_remake/models/songbooks.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
+import '../application_themes.dart';
 import '../global_data/total_hymns.dart';
 
 ValueNotifier<List<Hymn>> hymnsNotifier = ValueNotifier([]);
@@ -63,7 +64,7 @@ Future<void> downloadHymns(int songbookId, GlobalKey<ScaffoldState> scaffoldKey,
 
   showDialog(
     context: scaffoldKey.currentContext!,
-    barrierDismissible: true,
+    barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: const Color(0xFF1E2A47),
@@ -137,7 +138,52 @@ Future<void> downloadHymns(int songbookId, GlobalKey<ScaffoldState> scaffoldKey,
   await sharedPreferencesManager.saveTotalHymns(totalHymns.value);
 }
 
-Future<void> downloadAudio(int hymnId, String audioURL) async {
+Future<void> downloadAudio(int hymnId, String audioURL, BuildContext context) async {
+  BuildContext? downloadDialogContext;
+
+  Navigator.pop(context);
+
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      downloadDialogContext = context;  // Asignas el context a la variable
+      return AlertDialog(
+        backgroundColor: getDialogBGColors(context),
+        title: Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          child: Center(
+            child: Text(
+                'Descargando audio',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: getTextButtonColorssss(context),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                )
+            ),
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircularProgressIndicator(
+                    color: getTextButtonColorssss(context),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+
   // Construye la URL completa
   final completeURL = 'https://himnariodev.bibliayopinion.com/uploads/audios/$hymnId/$audioURL';
 
@@ -156,4 +202,44 @@ Future<void> downloadAudio(int hymnId, String audioURL) async {
   } else {
     throw Exception('Error al descargar el archivo');
   }
+
+  if (downloadDialogContext != null) {
+    Navigator.pop(downloadDialogContext!);
+  }
+}
+
+Future<bool> isAudioFileDownloaded(String audioFileName) async {
+  final directory = await getApplicationDocumentsDirectory();
+  final filePath = File('${directory.path}/$audioFileName');
+  return filePath.existsSync();
+}
+
+Color getDialogBGColors(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return const Color(0xFF1E2A47);
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFFC5CAE9);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return const Color(0xFF3C3C3C);
+  }
+
+  return Colors.white;
+}
+
+Color getTextButtonColorssss(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return Colors.white;
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
 }

@@ -10,10 +10,10 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF1E2A47),
-      appBar: BuildSearchScreenAppbar(),
-      body: BuildSearchScreenBody(),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: const BuildSearchScreenAppbar(),
+      body: const BuildSearchScreenBody(),
       // bottomNavigationBar: GlobalNavigationBar(),
     );
   }

@@ -1,19 +1,21 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
+import '../../../application_themes.dart';
+
 class BuildSettingsAppbar extends StatelessWidget with PreferredSizeWidget {
   const BuildSettingsAppbar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xFF3DBAA6),
+      backgroundColor: Theme.of(context).primaryColor,
       centerTitle: true,
-      title: const Text(
+      title: Text(
         'Ajustes',
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
-          color: Color(0xFF3A3A3A),
+          color: Theme.of(context).primaryColor == AppTheme().darkTheme.primaryColor ? Colors.white : const Color(0xFF3A3A3A),
         ),
       ),
     );

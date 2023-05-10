@@ -10,10 +10,10 @@ class ChangeSongBookScreen extends StatefulWidget {
 class _ChangeSongBookScreenState extends State<ChangeSongBookScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF1E2A47),
-      appBar: BuildChangeSongBookScreenAppbar(),
-      body: BuildChangeSongBookScreenBody(),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: const BuildChangeSongBookScreenAppbar(),
+      body: const BuildChangeSongBookScreenBody(),
     );
   }
 }

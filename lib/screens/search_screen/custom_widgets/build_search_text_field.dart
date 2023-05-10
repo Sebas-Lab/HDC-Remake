@@ -1,5 +1,7 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
+import '../../../application_themes.dart';
+
 class BuildSearchTextField extends StatefulWidget {
   const BuildSearchTextField({Key? key}) : super(key: key);
 
@@ -27,10 +29,10 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
       children: [
         Container(
           padding: const EdgeInsets.only(top: 50),
-          child: const Text(
+          child: Text(
             'Buscar himnario',
             style: TextStyle(
-              color: Colors.white,
+              color: Theme.of(context).primaryColor == AppTheme().lightTheme.primaryColor ? const Color(0xFF3A3A3A): Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25,
             ),
@@ -43,8 +45,8 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextField(
                 controller: searchLogic.searchController,
-                style: const TextStyle(
-                  color: Colors.white,
+                style: TextStyle(
+                  color: getTextButtonColorss(context),
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
@@ -53,8 +55,9 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
                     borderRadius: BorderRadius.circular(25.0),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Color(0xFF3DBAA6),
+                    borderSide: BorderSide(
+                      // color: Color(0xFF3DBAA6),
+                      color: Theme.of(context).primaryColor == AppTheme().lightTheme.primaryColor ? const Color(0xFF3A3A3A): Colors.white,
                       width: 3.0,
                     ),
                     borderRadius: BorderRadius.circular(25.0),
@@ -81,7 +84,7 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
                 padding: const EdgeInsets.only(left: 20, top: 7, bottom: 7, right: 20),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF1E2A47),
+                    primary: getButtonColorss(context),
                     padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
                     shadowColor: Colors.black,
                     elevation: 8,
@@ -93,9 +96,9 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       '${searchLogic.filteredHymns[index].id}. - ${searchLogic.filteredHymns[index].name}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         height: 2,
-                        color: Colors.white,
+                        color: getTextButtonColorss(context),
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
@@ -109,4 +112,34 @@ class _BuildSearchTextFieldState extends State<BuildSearchTextField> {
       ],
     );
   }
+}
+
+Color getButtonColorss(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return const Color(0xFF1E2A47);
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFFC5CAE9);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return const Color(0xFF3C3C3C);
+  }
+
+  return Colors.white;
+}
+
+Color getTextButtonColorss(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return Colors.white;
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
 }

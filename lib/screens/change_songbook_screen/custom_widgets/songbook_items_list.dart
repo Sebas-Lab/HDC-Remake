@@ -1,5 +1,7 @@
 import 'package:hdc_remake/screens/settings_screen/settings_screen_dependencies.dart';
 import 'package:hdc_remake/models/songbooks.dart';
+import '../../../application_themes.dart';
+import '../../../global_data/download_dialog.dart';
 import '../../../global_data/total_hymns.dart';
 
 typedef HymnbookChangedCallback = void Function(int hymnbookId, int totalHymns);
@@ -24,7 +26,10 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
     await sharedPreferencesManager.saveTotalHymns(totalHymns);
 
     // Carga los nuevos himnos
-    List<Hymn> hymns = await sharedPreferencesManager.loadHymns(hymnbookId);
+    List<Hymn> hymns = await DatabaseHelper.instance.getHymnsBySongbookId(hymnbookId);
+
+    // Actualiza el valor de hymnsNotifier
+    hymnsNotifier.value = List<Hymn>.from(hymns);
 
     // Actualiza el rango de himnos
     songListKey.currentState?.applyFilter(1, hymns.length); // Asegúrate de que solo muestre 50 himnos como máximo en el primer filtro
@@ -46,20 +51,77 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
   }
 
   Future<void> downloadHymnsForSongbook(SongBooks songbook) async {
+
+    Navigator.of(context).pop();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: getDialogBGColor(context),
+          title: Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: Center(
+              child: Text(
+                  'Descargando himnario',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: getDialogTextColor(context),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  )
+              ),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(bottom: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircularProgressIndicator(
+                      color: getDialogTextColor(context),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 40),
+                      child: Text(
+                        songbook.name,
+                        style: TextStyle(
+                          color: getDialogTextColor(context),
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
     // Obtén los himnos del himnario desde el servidor/API
     List<Hymn> hymns = await fetchSongbookData(songbook.id);
 
     // Guarda los himnos en la base de datos local
     DatabaseHelper dbHelper = DatabaseHelper.instance;
-    for (Hymn hymn in hymns) {
-      int uniqueId = int.parse('${songbook.id}${hymn.id}');
+    await Future.forEach(hymns, (Hymn hymn) async {
       await dbHelper.insert(Hymn(
-        id: uniqueId,
+        id: hymn.id,
         name: hymn.name,
         lyrics: hymn.lyrics,
         songbookId: songbook.id,
+        audioURL: hymn.audioURL,
       ));
-    }
+    });
+
+    // Aquí actualizamos la lista de himnos en memoria
+    hymnsNotifier.value = List<Hymn>.from(hymns);
 
     SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager();
     await sharedPreferencesManager.saveSelectedHymnbookId(songbook.id);
@@ -68,6 +130,7 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
     await sharedPreferencesManager.saveDownloadedSongbook(songbook.id);
     await sharedPreferencesManager.saveTotalHymns(totalHymns.value);
     sharedPreferencesManager.selectedHymnbookIdNotifier.value = songbook.id;
+    Navigator.of(context).pop();
   }
 
   Stream<List<SongBooks>> fetchSongbooksAndUpdateDownloadStatus() async* {
@@ -113,21 +176,21 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text(
+              title: Text(
                 'Himnario seleccionado',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: getDialogTextColor(context),
                 ),
               ),
-              content: const Text(
+              content: Text(
                 'Este es el himnario que estás usando actualmente.',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: getDialogTextColor(context),
                 ),
               ),
-              backgroundColor: const Color(0xFF1E2A47),
+              backgroundColor: getDialogBGColor(context),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -135,11 +198,11 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
-                    child: const Text(
+                    child: Text(
                       'Aceptar',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: getDialogTextColor(context),
                       ),
                     ),
                   ),
@@ -153,31 +216,31 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text(
+              title: Text(
                 'Cambiar himnario',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: getDialogTextColor(context),
                 )
               ),
               content: Text(
                 'Cambiar tu himnario actual por ${songbook.name}?',
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: getDialogTextColor(context),
                 ),
               ),
-              backgroundColor: const Color(0xFF1E2A47),
+              backgroundColor: getDialogBGColor(context),
               actions: [
                 TextButton(
                   onPressed: () async {
                     Navigator.of(context).pop();
                   },
-                  child: const Text(
+                  child: Text(
                     'No',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: getDialogTextColor(context),
                     ),
                   ),
                 ),
@@ -190,11 +253,11 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
-                    child: const Text(
+                    child: Text(
                       'Cambiar',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: getDialogTextColor(context),
                       ),
                     ),
                   ),
@@ -208,31 +271,31 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text(
+              title: Text(
                 'Descargar himnario',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: getDialogTextColor(context),
                 ),
               ),
-              content: const Text(
+              content: Text(
                 '¿Deseas descargar este himnario?',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: getDialogTextColor(context),
                 ),
               ),
-              backgroundColor: const Color(0xFF1E2A47),
+              backgroundColor: getDialogBGColor(context),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text(
+                  child: Text(
                     'No',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: getDialogTextColor(context),
                     ),
                   ),
                 ),
@@ -240,19 +303,16 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                   onPressed: () async {
                     await downloadHymnsForSongbook(songbook);
                     totalHymns.value = songbook.songAmount;
-                    setState(() {});
-                    await sharedPreferencesManager.saveDownloadedSongbook(songbook.id);
                     await updateSongbooksDownloadStatus(songbooks);
                     setState(() {});
-                    Navigator.of(context).pop();
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
-                    child: const Text(
+                    child: Text(
                       'Descargar',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: getDialogTextColor(context),
                       ),
                     ),
                   ),
@@ -270,9 +330,9 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
         stream: fetchSongbooksAndUpdateDownloadStatus(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error al obtener los himnarios'));
+            return const Center(child: Text('Error al obtener los himnarios'));
           } else {
             songbooks = snapshot.data!;
 
@@ -280,7 +340,7 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
               future: getSelectedSongbookId(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else {
                   int selectedSongbookId = snapshot.data!;
                   return ListView.builder(
@@ -296,12 +356,12 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                             padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                             margin: const EdgeInsets.only(bottom: 40.0),
                             decoration: BoxDecoration(
-                              color: const Color(0xFF3DBAA6),
+                              color: getContainerColor(context),
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.7),
-                                  blurRadius: 15,
+                                  blurRadius: getBlurContainer(context),
                                   offset: const Offset(0, 3),
                                 ),
                               ],
@@ -313,16 +373,16 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                                   alignment: Alignment.centerLeft,
                                   margin: const EdgeInsets.only(left: 20.0),
                                   child: Text(
-                                    songbook.name, // Aquí debería ir el nombre del himnario
-                                    style: const TextStyle(
+                                    songbook.name,
+                                    style: TextStyle(
                                       fontSize: 17.0,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF3A3A3A),
+                                      color: getTextColor(context),
                                     ),
                                   ),
                                 ),
-                                const Divider(
-                                  color: Colors.black,
+                                Divider(
+                                  color: getDividerColor(context),
                                   thickness: 2.0,
                                   indent: 20.0,
                                   endIndent: 20.0,
@@ -334,10 +394,10 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                                       margin: const EdgeInsets.only(left: 20.0, top: 15.0),
                                       child: Text(
                                         'Himnos: ${songbook.songAmount}', // Aquí debería ir el número total de cada himnario
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 15.0,
                                           fontWeight: FontWeight.bold,
-                                          color: Color(0xFF3A3A3A),
+                                          color: getTextColor(context),
                                         ),
                                       ),
                                     ),
@@ -345,7 +405,7 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
                                       margin: const EdgeInsets.only(right: 30.0, top: 10.0),
                                       child: Icon(
                                         getIconData(songbook, isSelected),
-                                        color: const Color(0xFF1E2A47),
+                                        color: getIconsColors(context),
                                         size: 30.0,
                                       ),
                                     ),
@@ -364,5 +424,110 @@ class _BuildSongBookItemListState extends State<BuildSongBookItemList> {
         },
       ),
     );
+  }
+
+  Color getDialogBGColor(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return const Color(0xFF1E2A47);
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return const Color(0xFFC5CAE9);
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return const Color(0xFF3C3C3C);
+    }
+
+    return Colors.white;
+  }
+
+  Color getDialogTextColor(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return Colors.white;
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return const Color(0xFF3A3A3A);
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return Colors.white;
+    }
+
+    return Colors.white;
+  }
+
+  Color getContainerColor(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return const Color(0xFF1E2A47);
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return const Color(0xFF87CEEB);
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return const Color(0xFF3C3C3C);
+    }
+
+    return Colors.white;
+  }
+
+  Color getTextColor(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return Colors.white;
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return const Color(0xFF3A3A3A);
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return Colors.white;
+    }
+
+    return Colors.white;
+  }
+
+  Color getDividerColor(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return const Color(0xFF3DBAA6);
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return const Color(0xFF009BFF);
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return Colors.white;
+    }
+
+    return Colors.white;
+  }
+
+  Color getIconsColors(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return const Color(0xFF3DBAA6);
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return const Color(0xFF009BFF);
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return Colors.white;
+    }
+
+    return Colors.white;
+  }
+
+  double getBlurContainer(BuildContext context) {
+
+    var themeData = Theme.of(context);
+
+    if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+      return 15;
+    } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+      return 15;
+    } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+      return 5;
+    }
+
+    return 10;
   }
 }

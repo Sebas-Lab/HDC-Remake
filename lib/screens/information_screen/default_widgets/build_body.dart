@@ -1,5 +1,7 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
+import '../../../application_themes.dart';
+
 class BuildInformationScreenBody extends StatefulWidget {
   const BuildInformationScreenBody({Key? key}) : super(key: key);
 
@@ -20,11 +22,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
             children: [
               Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   '¿Propósito?',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -33,11 +35,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'El propósito de esta aplicación es ser una herramienta de ayuda para la alabanza y adoración a nuestro Señor.',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
@@ -46,11 +48,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 50),
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   '¿Donde se creó esta herramienta?',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -59,11 +61,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Esta herramienta fué desarrollada por hermanos de la Iglesia de Cristo en Alajuela.',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
@@ -72,11 +74,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 50),
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   '¿Cómo contactarnos?',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -85,11 +87,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 30),
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Si tienes alguna duda, sugerencia o comentario, puedes escribirnos a nuestro correo electrónico:',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
@@ -98,11 +100,11 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'bibliayopinion@gmail.com',
                   style: TextStyle(
                     height: 1.5,
-                    color: Colors.white,
+                    color: getTextColors(context),
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                   ),
@@ -114,4 +116,19 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
       ],
     );
   }
+}
+
+Color getTextColors(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return Colors.white;
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
 }

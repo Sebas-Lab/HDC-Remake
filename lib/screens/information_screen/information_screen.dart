@@ -10,10 +10,10 @@ class InformationScreen extends StatefulWidget {
 class _InformationScreenState extends State<InformationScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xFF1E2A47),
-      appBar: BuildInformationScreenAppbar(),
-      body: BuildInformationScreenBody(),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: const BuildInformationScreenAppbar(),
+      body: const BuildInformationScreenBody(),
     );
   }
 }

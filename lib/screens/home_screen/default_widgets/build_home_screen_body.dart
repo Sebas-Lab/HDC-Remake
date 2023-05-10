@@ -36,7 +36,6 @@ class _BuildHomeScreenBodyState extends State<BuildHomeScreenBody> {
       valueListenable: hymnsNotifier,
       builder: (context, hymns, child) {
         if (hymns.isNotEmpty) {
-          print('hymns is not empty, count: ${hymns.length}');
           return Column(
             children: [
               BuildSearchByNumber(

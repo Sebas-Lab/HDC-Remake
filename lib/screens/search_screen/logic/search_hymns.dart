@@ -1,4 +1,5 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
+import 'package:diacritic/diacritic.dart';
 
 class SearchLogic {
   final TextEditingController searchController = TextEditingController();
@@ -10,14 +11,14 @@ class SearchLogic {
   }
 
   void _filterHymns() {
-    String searchText = searchController.text.toLowerCase();
+    String searchText = removeDiacritics(searchController.text.toLowerCase());
     List<Hymn> hymns = hymnsNotifier.value;
     Set<Hymn> resultSet = {};
 
     if (searchText.isNotEmpty) {
       for (var hymn in hymns) {
-        if (hymn.name.toLowerCase().contains(searchText) ||
-            hymn.lyrics.toLowerCase().contains(searchText) ||
+        if (removeDiacritics(hymn.name.toLowerCase()).contains(searchText) ||
+            removeDiacritics(hymn.lyrics.toLowerCase()).contains(searchText) ||
             hymn.id.toString().toLowerCase().contains(searchText)) {
           resultSet.add(hymn);
         }

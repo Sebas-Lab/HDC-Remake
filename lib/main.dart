@@ -1,17 +1,56 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
+import 'package:flutter/services.dart';
+import 'package:hdc_remake/screens/change_application_theme_screen/change_application_theme_screen.dart';
+
+import 'application_themes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     ChangeNotifierProvider(
       create: (context) => HymnsModel(),
-      child: const MyApp(),
+      child: const HDCRemakeApp(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class HDCRemakeApp extends StatefulWidget {
+  const HDCRemakeApp({Key? key}) : super(key: key);
+
+  @override
+  HDCRemakeAppState createState() => HDCRemakeAppState();
+}
+
+class HDCRemakeAppState extends State<HDCRemakeApp> {
+
+  ThemeData _currentTheme = AppTheme().oceanTheme;
+  CustomThemes _customTheme = CustomThemes.oceanTheme;
+
+  ThemeData get currentTheme => _currentTheme;
+  CustomThemes get currentCustomTheme => _customTheme;
+
+  void setTheme(CustomThemes theme) {
+    ThemeData newTheme;
+    switch (theme) {
+      case CustomThemes.oceanTheme:
+        newTheme = AppTheme().oceanTheme;
+        break;
+      case CustomThemes.lightTheme:
+        newTheme = AppTheme().lightTheme;
+        break;
+      case CustomThemes.darkTheme:
+        newTheme = AppTheme().darkTheme;
+        break;
+      default:
+        newTheme = ThemeData.light();
+        break;
+    }
+    setState(() {
+      _currentTheme = newTheme;
+      _customTheme = theme;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +60,22 @@ class MyApp extends StatelessWidget {
           create: (context) => FontSizeProvider(),
         ),
       ],
-      child: MaterialApp(
-          theme: ThemeData(
-            appBarTheme: const AppBarTheme(
-              iconTheme: IconThemeData(color: Color(0xFF1E2A47)),
-            ),
-          ),
+      child: AnimatedTheme(
+        data: _currentTheme,
+        duration: const Duration(seconds: 5),
+        child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: '/',
-          routes: {
+          title: 'HDC Remake',
+            theme: currentTheme,
+            routes: {
             '/': (context) => const SelectHymnScreen(),
-            '/song': (context) {
-              final Hymn hymn = ModalRoute.of(context)!.settings.arguments as Hymn;
-              return BuildSong(hymn: hymn);
-            },
+            '/song': (context) { final Hymn hymn = ModalRoute.of(context)!.settings.arguments as Hymn; return BuildSong(hymn: hymn);},
             '/home': (context) => const NavigationHandle(),
             '/information': (context) => const InformationScreen(),
             '/change_songbook': (context) => const ChangeSongBookScreen(),
+            '/change_app_theme': (context) => ChangeAppThemeScreen(setTheme: setTheme),
           }
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import '../../../application_themes.dart';
 import '../home_screen_dependencies.dart';
 import 'dart:math'; // Asegúrate de agregar este import
 
@@ -104,57 +105,102 @@ class SongListState extends State<SongList> {
 Widget buildSongsList(BuildContext context, ValueNotifier<RangeValues> hymnRange, List<Hymn> hymns, SongSelectedCallback onSongSelected, List<Hymn> filteredHymns) {
 
   return ValueListenableBuilder<RangeValues>(
-      valueListenable: hymnRange,
-      builder: (context, range, child) {
-        int start = range.start.toInt() - 1;
-        int end = range.end.toInt();
-        return Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: hymnRange.value.end.toInt() - hymnRange.value.start.toInt() + 1,
-                  itemBuilder: (BuildContext context, int index) {
+    valueListenable: hymnRange,
+    builder: (context, range, child) {
+      int start = range.start.toInt() - 1;
+      int end = range.end.toInt();
+      return Expanded(
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: hymnRange.value.end.toInt() - hymnRange.value.start.toInt() + 1,
+                itemBuilder: (BuildContext context, int index) {
 
-                    Hymn? hymn = (index + start) < hymns.length ? hymns[index + start] : null;
+                  Hymn? hymn = (index + start) < hymns.length ? hymns[index + start] : null;
 
-                    if (hymn == null) {
-                      return SizedBox.shrink();
-                    }
+                  if (hymn == null) {
+                    return const SizedBox.shrink();
+                  }
 
-                    return Container(
-                      padding: const EdgeInsets.only(left: 20, top: 7, bottom: 7, right: 20),
-                      margin: const EdgeInsets.only(bottom: 15),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color(0xFF1E2A47),
-                          padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
-                          shadowColor: Colors.black,
-                          elevation: 15,
-                        ),
-                        onPressed: () {
-                          onSongSelected(index + start + 1);
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '${index + start + 1} - ${hymn.name}',
-                            style: const TextStyle(
-                              height: 2,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                  return Container(
+                    padding: const EdgeInsets.only(left: 20, top: 7, bottom: 7, right: 20),
+                    margin: const EdgeInsets.only(bottom: 15),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: getButtonColor(context),
+                        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+                        shadowColor: Colors.black,
+                        elevation: getElevationButton(context),
+                      ),
+                      onPressed: () {
+                        onSongSelected(index + start + 1);
+                      },
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${index + start + 1} - ${hymn.name}',
+                          style: TextStyle(
+                            height: 2,
+                            color: getTextButtonColor(context),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
-        );
-      }
-    );
+            ),
+          ],
+        ),
+      );
+    }
+  );
+}
+
+Color getButtonColor(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return const Color(0xFF1E2A47);
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFFC5CAE9);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return const Color(0xFF3C3C3C);
+  }
+
+  return Colors.white;
+}
+
+Color getTextButtonColor(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return Colors.white;
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
+}
+
+double getElevationButton(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return 20;
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return 20;
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return 10;
+  }
+
+  return 20;
 }

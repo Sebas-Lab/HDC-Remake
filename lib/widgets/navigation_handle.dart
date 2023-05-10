@@ -1,5 +1,7 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
+import '../application_themes.dart';
+
 class NavigationHandle extends StatefulWidget {
   const NavigationHandle({Key? key}) : super(key: key);
 
@@ -11,14 +13,15 @@ class NavigationHandleState extends State<NavigationHandle> {
 
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const SettingsScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+
+    final List<Widget> _pages = [
+      const HomeScreen(),
+      const SearchScreen(),
+      const SettingsScreen(),
+    ];
+
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -42,9 +45,9 @@ class NavigationHandleState extends State<NavigationHandle> {
             _selectedIndex = index;
           });
         },
-        selectedItemColor: const Color(0xFF1E2A47),
-        unselectedItemColor: Colors.grey[800],
-        backgroundColor: const Color(0xFF3DBAA6),
+        selectedItemColor: Theme.of(context).primaryColor == AppTheme().darkTheme.primaryColor ? Colors.white : const Color(0xFF3A3A3A),
+        unselectedItemColor: Theme.of(context).primaryColor == AppTheme().darkTheme.primaryColor ? Colors.white : const Color(0xFF3A3A3A),
+        backgroundColor: Theme.of(context).primaryColor,
         currentIndex: _selectedIndex,
         selectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.bold,

@@ -1,5 +1,7 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
+import '../../../application_themes.dart';
+
 typedef FilterAppliedCallback = void Function(int start, int end);
 
 class BuildSearchByNumber extends StatefulWidget {
@@ -39,7 +41,6 @@ class _BuildSearchByNumberState extends State<BuildSearchByNumber> {
 
   @override
   Widget build(BuildContext context) {
-    print('Total hymns: ${widget.totalHymns.value}');
     return Container(
       height: 160,
       padding: const EdgeInsets.only(left: 5, right: 5),
@@ -48,23 +49,23 @@ class _BuildSearchByNumberState extends State<BuildSearchByNumber> {
         children: [
           Container(
             padding: const EdgeInsets.only(left: 25, top: 30),
-            child: const Align(
+            child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Selecciona un grupo',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
-                  color: Colors.white,
+                  color: Theme.of(context).primaryColor == AppTheme().lightTheme.primaryColor ? const Color(0xFF3A3A3A): Colors.white,
                 ),
               ),
             ),
           ),
           Container(
             padding: const EdgeInsets.only(top: 5),
-            child: const Divider(
+            child: Divider(
               thickness: 1.5,
-              color: Color(0xFF3DBAA6),
+              color: getDividerColors(context),
               indent: 15,
               endIndent: 50,
             ),
@@ -90,7 +91,7 @@ class _BuildSearchByNumberState extends State<BuildSearchByNumber> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(25.0),
                           ),
-                          primary: selectedButtonIndex == index ? Colors.orange : const Color(0xFF3DBAA6), // cambiar el color del botón seleccionado
+                          primary: selectedButtonIndex == index ? Colors.orange : Theme.of(context).primaryColor, // cambiar el color del botón seleccionado
                           padding: const EdgeInsets.only(top: 15, bottom: 15),
                           textStyle: const TextStyle(
                             fontSize: 18,
@@ -102,8 +103,8 @@ class _BuildSearchByNumberState extends State<BuildSearchByNumber> {
                         child: Text(
                           filterByNumber[index],
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFF3A3A3A),
+                          style: TextStyle(
+                            color: getTextButtonColors(context),
                           ),
                         ),
                       ),
@@ -117,4 +118,34 @@ class _BuildSearchByNumberState extends State<BuildSearchByNumber> {
       ),
     );
   }
+}
+
+Color getTextButtonColors(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
+}
+
+Color getDividerColors(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return const Color(0xFF3DBAA6);
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF009BFF);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
 }
