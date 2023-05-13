@@ -1,6 +1,4 @@
-import 'package:hdc_remake/screens/settings_screen/settings_screen_dependencies.dart';
-
-import '../models/songbooks.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class DownloadDialog extends StatefulWidget {
   final SongBooks songbook;

@@ -1,9 +1,5 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
-import '../../application_themes.dart';
-import 'default_widgets/build_appbar.dart';
-import 'default_widgets/build_body.dart';
-
 class ChangeAppThemeScreen extends StatefulWidget {
   final Function(CustomThemes) setTheme;
   const ChangeAppThemeScreen({Key? key, required this.setTheme}) : super(key: key);

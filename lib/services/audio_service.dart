@@ -1,4 +1,4 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class AudioService {
 

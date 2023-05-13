@@ -1,7 +1,5 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
-import '../../../application_themes.dart';
-
 class BuildSearchScreenAppbar extends StatelessWidget with PreferredSizeWidget {
   const BuildSearchScreenAppbar({Key? key}) : super(key: key);
 

@@ -1,5 +1,4 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
-import 'package:hdc_remake/local_data/songbook_version.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 

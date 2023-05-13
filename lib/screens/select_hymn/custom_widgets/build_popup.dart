@@ -1,5 +1,4 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
-import '../logic/popup.dart';
 
 Widget buildPopup(BuildContext context) {
   PopupLogic popupLogic = PopupLogic();

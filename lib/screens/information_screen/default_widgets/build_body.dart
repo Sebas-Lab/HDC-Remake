@@ -1,7 +1,5 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
-import '../../../application_themes.dart';
-
 class BuildInformationScreenBody extends StatefulWidget {
   const BuildInformationScreenBody({Key? key}) : super(key: key);
 
@@ -62,7 +60,7 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
                 margin: const EdgeInsets.only(top: 30),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Esta herramienta fué desarrollada por hermanos de la Iglesia de Cristo en Alajuela.',
+                  'Esta herramienta fué desarrollada por hermanos de la Iglesia de Cristo en Alajuela, Costa Rica.',
                   style: TextStyle(
                     height: 1.5,
                     color: getTextColors(context),
@@ -88,7 +86,7 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
                 margin: const EdgeInsets.only(top: 30),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Si tienes alguna duda, sugerencia o comentario, puedes escribirnos a nuestro correo electrónico:',
+                  'Si tiene alguna duda, sugerencia o comentario, puede escribirnos a nuestro correo electrónico:',
                   style: TextStyle(
                     height: 1.5,
                     color: getTextColors(context),
@@ -100,13 +98,21 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
               Container(
                 margin: const EdgeInsets.only(top: 20),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'bibliayopinion@gmail.com',
-                  style: TextStyle(
-                    height: 1.5,
-                    color: getTextColors(context),
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: getButtonColors(context),
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                    elevation: 15,
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    'bibliayopinion@gmail.com',
+                    style: TextStyle(
+                      height: 1.5,
+                      color: getTextColors(context),
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -116,6 +122,21 @@ class BuildInformationScreenBodyState extends State<BuildInformationScreenBody> 
       ],
     );
   }
+}
+
+Color getButtonColors(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return const Color(0xFF1E3670);
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFFA7B1F1);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return const Color(0xFF3C3C3C);
+  }
+
+  return Colors.white;
 }
 
 Color getTextColors(BuildContext context) {

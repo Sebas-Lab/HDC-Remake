@@ -1,4 +1,4 @@
-import '../search_screen_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildSearchScreenBody extends StatefulWidget {
   const BuildSearchScreenBody({Key? key}) : super(key: key);

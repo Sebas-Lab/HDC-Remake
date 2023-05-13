@@ -1,8 +1,4 @@
-import 'package:hdc_remake/screens/settings_screen/settings_screen_dependencies.dart';
-import 'package:hdc_remake/models/songbooks.dart';
-import '../../../application_themes.dart';
-import '../../../global_data/download_dialog.dart';
-import '../../../global_data/total_hymns.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 typedef HymnbookChangedCallback = void Function(int hymnbookId, int totalHymns);
 

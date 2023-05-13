@@ -1,5 +1,4 @@
-import '../../../global_data/total_hymns.dart';
-import '../home_screen_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildHomeScreenBody extends StatefulWidget {
   const BuildHomeScreenBody({Key? key}) : super(key: key);
@@ -10,7 +9,7 @@ class BuildHomeScreenBody extends StatefulWidget {
 
 class _BuildHomeScreenBodyState extends State<BuildHomeScreenBody> {
   final GlobalKey<SongListState> songListKey = GlobalKey();
-  final ValueNotifier<RangeValues> hymnRange = ValueNotifier(RangeValues(1, 50)); // Agrega esta línea
+  final ValueNotifier<RangeValues> hymnRange = ValueNotifier(const RangeValues(1, 50)); // Agrega esta línea
 
   void _onSongSelected(int index) {
     setState(() {});

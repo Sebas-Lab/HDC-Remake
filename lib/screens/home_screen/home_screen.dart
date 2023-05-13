@@ -1,4 +1,4 @@
-import 'package:hdc_remake/screens/home_screen/home_screen_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

@@ -1,6 +1,4 @@
-import '../../../application_themes.dart';
-import '../home_screen_dependencies.dart';
-import 'dart:math'; // Asegúrate de agregar este import
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 typedef SongSelectedCallback = void Function(int index);
 

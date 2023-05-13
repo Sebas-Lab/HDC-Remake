@@ -1,5 +1,4 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
-import 'package:diacritic/diacritic.dart';
 
 class SearchLogic {
   final TextEditingController searchController = TextEditingController();

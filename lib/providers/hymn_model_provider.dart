@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:hdc_remake/models/hymn.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class HymnsModel extends ChangeNotifier {
   List<Hymn> _hymns = [];

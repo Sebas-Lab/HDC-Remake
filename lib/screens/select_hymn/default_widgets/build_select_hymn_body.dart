@@ -75,8 +75,7 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
+                                  Expanded(
                                     child: Text(
                                       songbooks[index].name,
                                       style: const TextStyle(
@@ -84,10 +83,13 @@ class _BuildSelectHymnBodyState extends State<BuildSelectHymnBody> {
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
-                                  const SizedBox(width: 15.0),
-                                  const Icon(Icons.download, color: Color(0xFF3A3A3A)),
+                                  const Padding(
+                                    padding: EdgeInsets.only(right: 1.0),
+                                    child: Icon(Icons.download, color: Color(0xFF3A3A3A)),
+                                  ),
                                 ],
                               ),
                             ),

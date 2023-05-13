@@ -1,8 +1,4 @@
 import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
-import 'package:flutter/services.dart';
-import 'package:hdc_remake/screens/change_application_theme_screen/change_application_theme_screen.dart';
-
-import 'application_themes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +61,7 @@ class HDCRemakeAppState extends State<HDCRemakeApp> {
         duration: const Duration(seconds: 5),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'HDC Remake',
+          title: 'Himnario digital',
             theme: currentTheme,
             routes: {
             '/': (context) => const SelectHymnScreen(),

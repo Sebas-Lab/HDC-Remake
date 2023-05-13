@@ -1,5 +1,4 @@
-import '../../../application_themes.dart';
-import '../settings_screen_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class BuildSettingsBody extends StatefulWidget {
   const BuildSettingsBody({Key? key}) : super(key: key);

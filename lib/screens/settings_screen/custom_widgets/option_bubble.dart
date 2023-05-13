@@ -1,5 +1,4 @@
-import 'package:hdc_remake/application_themes.dart';
-import 'package:hdc_remake/screens/settings_screen/settings_screen_dependencies.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 Widget buildOptionBubble(BuildContext context, double marginTop, double marginBottom, String title, Widget icon, {String routeName = '', Function? onTap}) {
   return GestureDetector(

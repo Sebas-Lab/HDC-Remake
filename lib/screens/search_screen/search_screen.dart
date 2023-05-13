@@ -14,7 +14,6 @@ class _SearchScreenState extends State<SearchScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const BuildSearchScreenAppbar(),
       body: const BuildSearchScreenBody(),
-      // bottomNavigationBar: GlobalNavigationBar(),
     );
   }
 }

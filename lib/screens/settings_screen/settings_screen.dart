@@ -1,6 +1,4 @@
-import 'package:hdc_remake/screens/settings_screen/settings_screen_dependencies.dart';
-
-import '../../application_themes.dart';
+import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);

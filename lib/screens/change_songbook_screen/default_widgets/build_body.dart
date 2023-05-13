@@ -8,9 +8,8 @@ class BuildChangeSongBookScreenBody extends StatefulWidget {
 }
 
 class BuildChangeSongBookScreenBodyState extends State<BuildChangeSongBookScreenBody> {
-  Future<void> _onHymnbookChanged(int hymnbookId, int totalHymns) async {
-    // Aquí es donde implementas el cambio de himnario y actualizas el estado
-  }
+
+  Future<void> _onHymnbookChanged(int hymnbookId, int totalHymns) async {}
 
   @override
   Widget build(BuildContext context) {
