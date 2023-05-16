@@ -75,6 +75,14 @@ export 'package:hdc_remake/screens/settings_screen/custom_widgets/option_bubble.
    // Change application theme screen
 export 'package:hdc_remake/screens/change_application_theme_screen/custom_widgets/build_app_theme_colors.dart';
 
+   // Change songbook screen
+export 'package:hdc_remake/screens/change_songbook_screen/logic/on_hymnbook_changed.dart';
+export 'package:hdc_remake/screens/change_songbook_screen/logic/get_icon_data.dart';
+export 'package:hdc_remake/screens/change_songbook_screen/logic/download_hymns_for_songbook.dart';
+export 'package:hdc_remake/screens/change_songbook_screen/logic/fetch_songbooks_and_update_download_status.dart';
+export 'package:hdc_remake/screens/change_songbook_screen/logic/update_songbook_download_status.dart';
+export 'package:hdc_remake/screens/change_songbook_screen/logic/is_hymnbook_downloaded.dart';
+
 // Models
 export 'package:hdc_remake/models/songbooks.dart';
 export 'package:hdc_remake/models/songbook.dart';

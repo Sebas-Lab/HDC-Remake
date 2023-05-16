@@ -18,5 +18,20 @@ class AppTheme {
   );
 }
 
+Color getDialogTextColor(BuildContext context) {
+
+  var themeData = Theme.of(context);
+
+  if (themeData.primaryColor == AppTheme().oceanTheme.primaryColor) {
+    return Colors.white;
+  } else if (themeData.primaryColor == AppTheme().lightTheme.primaryColor) {
+    return const Color(0xFF3A3A3A);
+  } else if (themeData.primaryColor == AppTheme().darkTheme.primaryColor) {
+    return Colors.white;
+  }
+
+  return Colors.white;
+}
+
 enum CustomThemes { oceanTheme, lightTheme, darkTheme }
 
