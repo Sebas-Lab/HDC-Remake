@@ -21,40 +21,34 @@ export 'package:hdc_remake/screens/select_hymn/default_widgets/build_select_hymn
 export 'package:hdc_remake/screens/select_hymn/select_hymn.dart';
 
    // Home screen
-export 'package:hdc_remake/screens/home_screen/default_widgets/build_home_screen_appbar.dart';
 export 'package:hdc_remake/screens/home_screen/default_widgets/build_home_screen_body.dart';
 export 'package:hdc_remake/screens/Home_Screen/home_screen.dart';
 export 'package:hdc_remake/screens/home_screen/custom_widgets/build_songs_list.dart';
 export 'package:hdc_remake/screens/home_screen/custom_widgets/build_search_by_number.dart';
 
    // Search screen
-export 'package:hdc_remake/screens/search_screen/default_widgets/build_search_screen_appbar.dart';
 export 'package:hdc_remake/screens/search_screen/default_widgets/build_search_screen_body.dart';
 export 'package:hdc_remake/screens/search_screen/search_screen.dart';
 export 'package:hdc_remake/screens/search_screen/custom_widgets/build_search_text_field.dart';
 
    // Settings screen
 export 'package:hdc_remake/screens/settings_screen/settings_screen.dart';
-export 'package:hdc_remake/screens/settings_screen/default_widgets/build_settings_screen_appbar.dart';
 export 'package:hdc_remake/screens/settings_screen/default_widgets/build_settings_screen_body.dart';
 
    // Song screen
 export 'package:hdc_remake/screens/song_screen/build_song.dart';
 
    // Information screen
-export 'package:hdc_remake/screens/information_screen/default_widgets/build_appbar.dart';
 export 'package:hdc_remake/screens/information_screen/default_widgets/build_body.dart';
 export 'package:hdc_remake/screens/information_screen/information_screen.dart';
 
    // Change songbook screen
 export 'package:hdc_remake/screens/change_songbook_screen/change_songbook_screen.dart';
-export 'package:hdc_remake/screens/change_songbook_screen/default_widgets/build_appbar.dart';
 export 'package:hdc_remake/screens/change_songbook_screen/default_widgets/build_body.dart';
 export 'package:hdc_remake/screens/change_songbook_screen/custom_widgets/songbook_items_list.dart';
 
    // Change application theme screen
 export 'package:hdc_remake/application_themes.dart';
-export 'package:hdc_remake/screens/change_application_theme_screen/default_widgets/build_appbar.dart';
 export 'package:hdc_remake/screens/change_application_theme_screen/default_widgets/build_body.dart';
 export 'package:hdc_remake/screens/change_application_theme_screen/change_application_theme_screen.dart';
 
