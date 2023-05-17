@@ -1,4 +1,4 @@
-import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
+import 'package:hdc_remake/application/application_dependencies.dart';
 
 class InformationScreen extends StatefulWidget {
   const InformationScreen({Key? key}) : super(key: key);

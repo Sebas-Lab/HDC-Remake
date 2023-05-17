@@ -1,4 +1,4 @@
-import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
+import 'package:hdc_remake/application/application_dependencies.dart';
 
 class BuildChangeSongBookScreenBody extends StatefulWidget {
   const BuildChangeSongBookScreenBody({Key? key}) : super(key: key);

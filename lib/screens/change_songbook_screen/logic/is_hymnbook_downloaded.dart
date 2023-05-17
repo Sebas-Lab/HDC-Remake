@@ -1,4 +1,4 @@
-import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
+import 'package:hdc_remake/application/application_dependencies.dart';
 
 Future<bool> isHymnbookDownloaded(int hymnbookId) async {
   DatabaseHelper dbHelper = DatabaseHelper.instance;

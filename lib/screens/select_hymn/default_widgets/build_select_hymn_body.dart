@@ -1,4 +1,4 @@
-import 'package:hdc_remake/application_dependencies/app_dependencies.dart';
+import 'package:hdc_remake/application/application_dependencies.dart';
 
 class BuildSelectHymnBody extends StatefulWidget {
   const BuildSelectHymnBody({Key? key}) : super(key: key);

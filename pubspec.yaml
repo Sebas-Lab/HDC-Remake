@@ -26,9 +26,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/sample_hymns.json
-    - assets/audio/audioSample.mp3
 
 flutter_icons:
   image_path: "assets/icon/launcherIcon.png"
